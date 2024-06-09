@@ -3,6 +3,7 @@ import { hash } from 'argon2'
 import { startOfDay, subDays } from 'date-fns'
 import { AuthDto } from 'src/auth/dto/auth.dto'
 import { PrismaService } from 'src/prisma.service'
+import { UserDto } from './dto/user.dto'
 
 @Injectable()
 export class UserService {
@@ -85,10 +86,10 @@ export class UserService {
 		})
 	}
 
-	async update(id: string, dto: AuthDto) {
+	async update(id: string, dto: UserDto) {
 		let data = dto
 
-		if (!dto.password) {
+		if (dto.password) {
 			data = { ...dto, password: await hash(dto.password) }
 		}
 
